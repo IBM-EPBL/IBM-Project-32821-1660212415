@@ -1,0 +1,192 @@
+Import the library
+
+from keras.preprocessing.image import ImageDataGenerator
+Arguments for ImageDataGenerator class
+
+train_datagen=ImageDataGenerator(rescale=1./255,shear_range=0.2,zoom_range=0.2,horizontal_flip=True)
+test_datagen=ImageDataGenerator(rescale=1./255)
+Applying ImageDataGenerator functionality to trainset and testset
+
+x_train=train_datagen.flow_from_directory('/content/drive/MyDrive/dataset/data_set/training_set',target_size=(64,64),batch_size=300,class_mode='categorical',color_mode="grayscale")
+Found 5750 images belonging to 9 classes.
+x_test=test_datagen.flow_from_directory('/content/drive/MyDrive/dataset/data_set/test_set',target_size=(64,64),batch_size=300,class_mode='categorical',color_mode="grayscale")
+Found 2250 images belonging to 9 classes.
+!pip install opencv.python
+import cv2
+imread is used to read the image
+img=cv2.imread('/content/drive/MyDrive/dataset/data_set/test_set/A/10.png')
+img
+array([[[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       ...,
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]]], dtype=uint8)
+img.ndim
+3
+type(img)
+numpy.ndarray
+img.shape
+(64, 64, 3)
+flag 1 means color image
+img_flag = cv2.imread('/content/drive/MyDrive/dataset/data_set/test_set/A/100.png')
+img_flag
+array([[[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       ...,
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]]], dtype=uint8)
+import matplotlib.pyplot as plt
+plt.imshow(img)
+
+plt.imshow(img_flag)
+
+resize the image
+resized_img = cv2.resize(img,(100,100))
+resized_img.shape
+(100, 100, 3)
+plt.imshow(resized_img)
+
+cv_img = cv2.cvtColor(img,cv2.COLOR_BGR2YCR_CB)
+plt.imshow(cv_img)
+
+cv_img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+plt.imshow(cv_img)
+
+roi_img = img[50:280,35:150]
+roi_img = img[10:40,35:150]
+plt.imshow(roi_img)
+roi_img = img[10:40,0:90]
+plt.imshow(roi_img)
+
+roi_img = img[0:90,10:40]
+plt.imshow(roi_img)
+
+averaging
+cv2.blur() or cv2.boxFilter
+img_bl = cv2.blur(img,(10,10))
+plt.imshow(img_bl)
+
+img_gbl = cv2.GaussianBlur(img,(5,5),0)
+plt.imshow(img_gbl)
+
+img_edge = cv2.Canny(img,230,350)
+plt.imshow(img_edge)
+
+binary
+#src -- image
+#thresh
+#max_value
+#type -- type of thersholding
+#cv2.THRESH_BINARY -- Binary Thersholding
+thresh, thresh_img = cv2.threshold(img, 200, 255, cv2.THRESH_BINARY) #img
+plt.imshow(thresh_img)
+
+#circle 
+#cv2.circle(image,(center coordinates),radius,(color), thickness)
+circle = cv2.circle(img,(300,200),60,(255,0,0),5)
+plt.imshow(img)
+
+#rectangle
+#cv2.rectangle(img,(start coord),(end coord),color,thickness)
+rectangle = cv2.rectangle(img,(200,100),(400,300),(0,0,255),10)
+plt.imshow(img)
+
+#line
+#cv2.line(img,(start coord),(end coord),color,thickness)
+
+line = cv2.line(img,(200,100),(400,300),(0,255,0),3)
+plt.imshow(img)
+
+creating or writing text an image
+#cv2.putText(img,text,(coord),fontstyle,fontscale,color,thickness)
+text = cv2.putText(img,"Opencv",(200,50),cv2.FONT_HERSHEY_SIMPLEX,2,(255,255,255),5)
+plt.imshow(img)
+
